@@ -9,7 +9,8 @@ on:
       - main
 
 jobs:
-  build:
+  backend:
+    name: Backend Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -20,12 +21,38 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20"
+          cache: "yarn"
 
-      - name: Install dependencies
-        run: yarn install
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          yarn install
 
-      - name: Run tests
-        run: yarn run test
+      - name: Run backend tests
+        run: |
+          cd backend
+          yarn run test
 
-      # - name: Build project
-      #   run: yarn run build
+  frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          yarn install
+
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          yarn run test
