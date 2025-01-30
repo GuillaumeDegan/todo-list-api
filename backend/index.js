@@ -12,21 +12,6 @@ const frontUrl = process.env.FRONTEND_URL || "http://localhost:3001";
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
-// connectMongo()
-//   .then(() => {
-//     mongoose.connect(process.env.MONGO_URL);
-//   })
-//   .then(() => {
-//     console.log("Database connected");
-//     const server = app.listen(process.env.PORT);
-//     return server;
-//   })
-//   .then(() => {
-//     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-//   })
-//   .catch((e) => {
-//     console.error(`ERROR_STARTING_APP_${e.message}`);
-//   });
 app.listen(process.env.PORT);
 
 const apiRouter = express.Router();
@@ -37,15 +22,6 @@ app.use(
     credentials: true,
   })
 );
-
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", frontUrl),
-//     res.header(
-//       "Access-Control-Allow-Headers",
-//       "Origin, X-Requested-With, Content-Type, Accept"
-//     ),
-//     next();
-// });
 
 /**
  * @swagger

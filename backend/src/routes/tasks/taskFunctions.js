@@ -20,21 +20,11 @@ let allTodos = [
 ];
 
 export const handleGetAllTasks = async (req, res) => {
-  //   TasksModel.find()
-  //     .then((data) => {
-  //       res.json(data);
-  //     })
-  //     .catch((error) => {
-  //       res.json(error);
-  //     });
   return res.json(allTodos);
 };
 
 export const handleGetTaskById = async (req, res) => {
   const { id } = req.params;
-  //   TasksModel.findById(id)
-  //     .then((data) => res.json(data))
-  //     .catch((error) => res.json(error));
   const task = allTodos.find((task) => task._id === id);
   if (!task) {
     return res.status(404).json({ message: "Task not found" });
@@ -53,25 +43,11 @@ export const handleCreateTask = async (req, res) => {
     title: req.body.title,
     completed: req.body.completed,
   });
-  //   Task.save()
-  //     .then((data) => {
-  //       res.json(data);
-  //     })
-  //     .catch((error) => {
-  //       res.json(error);
-  //     });
   allTodos.push(Task);
   return res.json(allTodos);
 };
 
 export const handleUpdateTask = async (req, res) => {
-  //   TasksModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
-  //     .then((data) => {
-  //       res.json(data);
-  //     })
-  //     .catch((error) => {
-  //       res.json(error);
-  //     });
   const task = allTodos.find((task) => task._id === req.params.id);
   if (!task) {
     return res.status(404).json({ message: "Task not found" });
@@ -84,13 +60,6 @@ export const handleUpdateTask = async (req, res) => {
 };
 
 export const handleDeleteTask = async (req, res) => {
-  //   TasksModel.findByIdAndDelete(req.params.id)
-  //     .then((data) => {
-  //       res.json(data);
-  //     })
-  //     .catch((error) => {
-  //       res.json(error);
-  //     });
   const task = allTodos.find((task) => task._id === req.params.id);
   if (!task) {
     return res.status(404).json({ message: "Task not found" });
