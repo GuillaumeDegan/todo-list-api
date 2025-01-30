@@ -56,3 +56,7 @@ jobs:
         run: |
           cd frontend
           yarn run test
+
+      - name: Run frontend e2e tests
+        run: |
+          npx playwright test

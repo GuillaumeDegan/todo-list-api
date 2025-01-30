@@ -1,7 +1,12 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { v4 as uuidv4 } from "uuid";
-import TasksModel from "../models/Tasks.js";
+import {
+  handleCreateTask,
+  handleDeleteTask,
+  handleGetAllTasks,
+  handleGetTaskById,
+  handleUpdateTask,
+} from "./taskFunctions.js";
 
 const taskRoutes = express.Router();
 
@@ -43,13 +48,7 @@ var jsonParser = bodyParser.json();
  *                     example: false
  */
 taskRoutes.get("/tasks", (req, res) => {
-  TasksModel.find()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.json(error);
-    });
+  handleGetAllTasks(req, res);
 });
 
 /**
@@ -86,9 +85,7 @@ taskRoutes.get("/tasks", (req, res) => {
  *                   example: false
  */
 taskRoutes.get("/tasks/:id", (req, res) => {
-  TasksModel.findById(req.params.id)
-    .then((data) => res.json(data))
-    .catch((error) => res.json(error));
+  handleGetTaskById(req, res);
 });
 
 /**
@@ -131,19 +128,7 @@ taskRoutes.get("/tasks/:id", (req, res) => {
  *                   example: false
  */
 taskRoutes.post("/tasks", jsonParser, (req, res) => {
-  let newId = uuidv4();
-  const Task = new TasksModel({
-    _id: newId,
-    title: req.body.title,
-    completed: req.body.completed,
-  });
-  Task.save()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.json(error);
-    });
+  handleCreateTask(req, res);
 });
 
 /**
@@ -193,13 +178,7 @@ taskRoutes.post("/tasks", jsonParser, (req, res) => {
  *                   example: true
  */
 taskRoutes.patch("/tasks/:id", jsonParser, (req, res) => {
-  TasksModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.json(error);
-    });
+  handleUpdateTask(req, res);
 });
 
 /**
@@ -236,13 +215,7 @@ taskRoutes.patch("/tasks/:id", jsonParser, (req, res) => {
  *                   example: false
  */
 taskRoutes.delete("/tasks/:id", (req, res) => {
-  TasksModel.findByIdAndDelete(req.params.id)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.json(error);
-    });
+  handleDeleteTask(req, res);
 });
 
 export default taskRoutes;

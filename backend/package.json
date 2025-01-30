@@ -8,9 +8,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --experimental-specifier-resolution=node",
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jest": "^29.7.0",
@@ -19,5 +20,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
   }
 }

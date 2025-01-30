@@ -1,3 +1,4 @@
+import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
@@ -9,6 +10,7 @@ import router from "./src/routes/index.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+const frontUrl = process.env.FRONTEND_URL || "http://localhost:3001";
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
@@ -18,7 +20,8 @@ connectMongo()
   })
   .then(() => {
     console.log("Database connected");
-    return app.listen(process.env.PORT);
+    const server = app.listen(process.env.PORT);
+    return server;
   })
   .then(() => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
@@ -28,6 +31,22 @@ connectMongo()
   });
 
 const apiRouter = express.Router();
+
+app.use(
+  cors({
+    origin: frontUrl,
+    credentials: true,
+  })
+);
+
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", frontUrl),
+//     res.header(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content-Type, Accept"
+//     ),
+//     next();
+// });
 
 /**
  * @swagger
@@ -60,3 +79,5 @@ apiRouter.get("/", (req, res) => {
 app.use("/api/v1", router);
 
 app.use("*", (_req, res) => res.status(404).send("NO_RESOURCE_AVAILABLE"));
+
+export default app;
