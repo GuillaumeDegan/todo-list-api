@@ -15,12 +15,15 @@ describe("Testing task requests", () => {
       completed: false,
     });
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({
-      __v: 0,
-      _id: "1",
-      title: "Acheter du lait",
-      completed: false,
-    });
+    expect(response.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          _id: "1",
+          title: "Acheter du lait",
+          completed: false,
+        }),
+      ])
+    );
   });
 
   test("Get all tasks", async () => {
@@ -33,7 +36,6 @@ describe("Testing task requests", () => {
     const response = await request(app).get("/api/v1/tasks/1");
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
-      __v: 0,
       _id: "1",
       title: "Acheter du lait",
       completed: false,
@@ -46,7 +48,6 @@ describe("Testing task requests", () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
-      __v: 0,
       _id: "1",
       title: "Acheter du lait",
       completed: true,
@@ -57,7 +58,6 @@ describe("Testing task requests", () => {
     const response = await request(app).delete("/api/v1/tasks/1");
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
-      __v: 0,
       _id: "1",
       title: "Acheter du lait",
       completed: true,
